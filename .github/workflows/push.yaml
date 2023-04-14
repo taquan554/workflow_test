@@ -32,8 +32,12 @@ jobs:
       matrix:
         num: ${{ fromJson(needs.set-matrix.outputs.num) }}
     steps:
-      - run: sleep 10
-      - run: echo ${{ matrix.num }}
+      - name: wait
+        run: |
+          sleep 10
+          echo "timeout"
+      - name: main proc
+        run: echo ${{ matrix.num }}
 
   static:
     runs-on: ubuntu-latest
@@ -44,8 +48,12 @@ jobs:
       matrix:
         num: ${{ fromJson(needs.set-matrix.outputs.num) }}
     steps:
-      - run: sleep 10
-      - run: echo ${{ matrix.num }}
+      - name: wait
+        run: |
+          sleep 10
+          echo "timeout"
+      - name: main proc
+        run: echo ${{ matrix.num }}
 
   test_odd:
     runs-on: ubuntu-latest
@@ -58,45 +66,61 @@ jobs:
       matrix:
         odd: ${{ fromJson(needs.set-matrix.outputs.odd) }}
     steps:
-      - run: sleep 10
-      - run: echo ${{ matrix.odd }}
+      - name: wait
+        run: |
+          sleep 10
+          echo "timeout"
+      - name: main proc
+        run: echo ${{ matrix.odd }}
 
   test_even:
     runs-on: ubuntu-latest
     needs: [set-matrix, static]
     if: |
-      !contains(needs.set-matrix.outputs.even, '')
+      !contains(matrix.even, '')
     strategy:
       fail-fast: false
       max-parallel: 1
       matrix:
         even: ${{ fromJson(needs.set-matrix.outputs.even) }}
     steps:
-      - run: sleep 10
-      - run: echo ${{ matrix.even }}
+      - name: wait
+        run: |
+          sleep 10
+          echo "timeout"
+      - name: main proc
+        run: echo ${{ matrix.even }}
       
   test_vowel:
     runs-on: ubuntu-latest
     needs: [set-matrix, test_odd, test_even]
     if: |
-      !contains(needs.set-matrix.outputs.vowel, '')
+      !contains(matrix.vowel, '')
     strategy:
       fail-fast: false
       matrix:
         vowel: ${{ fromJson(needs.set-matrix.outputs.vowel) }}
     steps:
-      - run: sleep 10
-      - run: echo ${{ matrix.vowel }}
+      - name: wait
+        run: |
+          sleep 10
+          echo "timeout"
+      - name: main proc
+        run: echo ${{ matrix.vowel }}
 
   test_consonant:
     runs-on: ubuntu-latest
     needs: [set-matrix, test_odd, test_even]
     if: |
-      !contains(needs.set-matrix.outputs.consonant, '')
+      !contains(matrix.consonant, '')
     strategy:
       fail-fast: false
       matrix:
         consonant: ${{ fromJson(needs.set-matrix.outputs.consonant) }}
     steps:
-      - run: sleep 10
-      - run: echo ${{ matrix.consonant }}
+      - name: wait
+        run: |
+          sleep 10
+          echo "timeout"
+      - name: main proc
+        run: echo ${{ matrix.consonant }}

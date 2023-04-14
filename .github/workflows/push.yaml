@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, static]
     if: |
-      !contains(fromJSON(needs.set-matrix.outputs.odd, ''))
+      !contains(fromJSON(needs.set-matrix.outputs.odd), '')
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -77,7 +77,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, static]
     if: |
-      !contains(fromJSON(needs.set-matrix.outputs.even, ''))
+      !contains(fromJSON(needs.set-matrix.outputs.even), '')
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -95,7 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, test_odd, test_even]
     if: |
-      !contains(fromJSON(needs.set-matrix.outputs.vowel, ''))
+      !contains(fromJSON(needs.set-matrix.outputs.vowel), '')
     strategy:
       fail-fast: false
       matrix:
@@ -112,7 +112,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, test_odd, test_even]
     if: |
-      !contains(fromJSON(needs.set-matrix.outputs.consonant, ''))
+      !contains(fromJSON(needs.set-matrix.outputs.consonant), '')
     strategy:
       fail-fast: false
       matrix:

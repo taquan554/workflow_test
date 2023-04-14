@@ -4,12 +4,13 @@ jobs:
   set-matrix:
     runs-on: ubuntu-latest
     steps:
-      - id: set-matrix
+      - name: set-matrix
+        id: set-matrix
         run: |
           qtr=$(echo '["1q","2q","3q","4q"]' | jq -c)
           week=$(echo '["Sun","Mon","Tues","Wed","Thur","Fri","Sat"]' | jq -c)
-          echo "::set-output output1=test::${qtr}"
-          echo "::set-output output2=test::${week}"
+          echo "::set-output name=output1::${qtr}"
+          echo "::set-output name=output2::${week}"
     outputs:
       output1: ${{ steps.set-matrix.outputs.output1 }}
       output2: ${{ steps.set-matrix.outputs.output2 }}

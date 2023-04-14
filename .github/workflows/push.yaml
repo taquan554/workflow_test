@@ -1,7 +1,75 @@
 name: learn-github-actions
 on: [push]
 jobs:
-  check-bats-version:
+  set-matrix:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "this is pen"
+      - id: set-matrix
+        run: |
+          qtr=$(echo '["1q","2q","3q","4q"]' | jq -c)
+          week=$(echo '["Sun","Mon","Tues","Wed","Thur","Fri","Sat"]' | jq -c)
+          echo "::set-output output1=test::${qtr}"
+          echo "::set-output output2=test::${week}"
+    outputs:
+      output1: ${{ steps.set-matrix.outputs.output1 }}
+      output2: ${{ steps.set-matrix.outputs.output2 }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs: set-matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        qtr: ${{ needs.set-matrix.outputs.output1 }}
+    steps:
+      - run: echo ${{ matrix.qtr }}
+
+  static:
+    runs-on: ubuntu-latest
+    needs: [set-matrix, build]
+    strategy:
+      fail-fast: false
+      matrix:
+        week: ${{ needs.set-matrix.outputs.output2 }}
+    steps:
+      - run: echo ${{ matrix.week }}
+
+  test_A1:
+    runs-on: ubuntu-latest
+    needs: [set-matrix, static]
+    strategy:
+      fail-fast: false
+      matrix:
+        qtr: ${{ needs.set-matrix.outputs.output1 }}
+    steps:
+      - run: echo ${{ matrix.qtr }}
+
+  test_A2:
+    runs-on: ubuntu-latest
+    needs: [set-matrix, static]
+    strategy:
+      fail-fast: false
+      matrix:
+        week: ${{ needs.set-matrix.outputs.output2 }}
+    steps:
+      - run: echo ${{ matrix.week }}
+      
+  test_B1:
+    runs-on: ubuntu-latest
+    needs: [set-matrix, test_A1, test_A2]
+    strategy:
+      fail-fast: false
+      matrix:
+        qtr: ${{ needs.set-matrix.outputs.output1 }}
+    steps:
+      - run: echo ${{ matrix.qtr }}
+
+  test_B2:
+    runs-on: ubuntu-latest
+    needs: [set-matrix, test_A1, test_A2]
+    strategy:
+      fail-fast: false
+      matrix:
+        qtr: ${{ needs.set-matrix.outputs.output2 }}
+    steps:
+      - run: echo ${{ matrix.week }}

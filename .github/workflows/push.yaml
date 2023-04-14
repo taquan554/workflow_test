@@ -7,11 +7,11 @@ jobs:
       - name: set-matrix
         id: set-matrix
         run: |
-          num=fromJson($(echo '["1","2","3"]' | jq -c))
-          odd=fromJson($(echo '["1","3"]' | jq -c))
-          even=fromJson($(echo '[""]' | jq -c))
-          vowel=fromJson($(echo '["A"]' | jq -c))
-          consonant=$(echo '[""]' | jq -c))
+          num=$(echo '["1","2","3"]' | jq '.c | fromjson')
+          odd=$(echo '["1","3"]' | jq '.c | fromjson')
+          even=$(echo '[""]' | jq '.c | fromjson')
+          vowel=$(echo '["A"]' | jq '.c | fromjson')
+          consonant=$(echo '[""]' | jq '.c | fromjson')
           echo "num=${num}" >> $GITHUB_OUTPUT
           echo "odd=${odd}" >> $GITHUB_OUTPUT
           echo "even=${even}" >> $GITHUB_OUTPUT

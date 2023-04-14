@@ -7,8 +7,8 @@ jobs:
       - name: set-matrix
         id: set-matrix
         run: |
-          qtr=("1q" "2q" "3q" "4q")
-          week=("Sun" "Mon" "Tues" "Wed" "Thur" "Fri" "Sat")
+          qtr=$(echo '["1q","2q","3q","4q"]' | jq -c)
+          week=$(echo '["Sun","Mon","Tues","Wed","Thur","Fri","Sat"]' | jq -c)
           echo "::set-output name=output1::${qtr}"
           echo "::set-output name=output2::${week}"
     outputs:
@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qtr: ${{ needs.set-matrix.outputs.output1 }}
+        qtr: ${{ fromJson(needs.set-matrix.outputs.output1) }}
     steps:
       - run: echo ${{ matrix.qtr }}
 
@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        week: ${{ needs.set-matrix.outputs.output2 }}
+        week: ${{ fromJson(needs.set-matrix.outputs.output2) }}
     steps:
       - run: echo ${{ matrix.week }}
 
@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qtr: ${{ needs.set-matrix.outputs.output1 }}
+        qtr: ${{ fromJson(needs.set-matrix.outputs.output1) }}
     steps:
       - run: echo ${{ matrix.qtr }}
 
@@ -51,7 +51,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        week: ${{ needs.set-matrix.outputs.output2 }}
+        week: ${{ fromJson(needs.set-matrix.outputs.output2) }}
     steps:
       - run: echo ${{ matrix.week }}
       
@@ -61,7 +61,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qtr: ${{ needs.set-matrix.outputs.output1 }}
+        qtr: ${{ fromJson(needs.set-matrix.outputs.output1) }}
     steps:
       - run: echo ${{ matrix.qtr }}
 
@@ -71,6 +71,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qtr: ${{ needs.set-matrix.outputs.output2 }}
+        qtr: ${{ fromJson(needs.set-matrix.outputs.output2) }}
     steps:
       - run: echo ${{ matrix.week }}

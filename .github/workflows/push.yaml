@@ -12,11 +12,11 @@ jobs:
           even=$(echo '["2"]' | jq -c)
           aa=$(echo '["A"]' | jq -c)
           bc=$(echo '["B","C"]' | jq -c)
-          echo "num=${num} >> $GITHUB_OUTPUT"
-          echo "odd=${odd} >> $GITHUB_OUTPUT"
-          echo "even=${even} >> $GITHUB_OUTPUT"
-          echo "aa=${aa} >> $GITHUB_OUTPUT"
-          echo "bc=${bc} >> $GITHUB_OUTPUT"
+          echo "num=${num}" >> $GITHUB_OUTPUT
+          echo "odd=${odd}" >> $GITHUB_OUTPUT
+          echo "even=${even}" >> $GITHUB_OUTPUT
+          echo "aa=${aa}" >> $GITHUB_OUTPUT
+          echo "bc=${bc}" >> $GITHUB_OUTPUT
     outputs:
       num: ${{ steps.set-matrix.outputs.num }}
       odd: ${{ steps.set-matrix.outputs.odd }}

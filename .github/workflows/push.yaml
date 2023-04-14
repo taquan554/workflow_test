@@ -7,11 +7,11 @@ jobs:
       - name: set-matrix
         id: set-matrix
         run: |
-          num=$(echo '["1","2","3"]' | jq -c)
-          odd=$(echo '["1","3"]' | jq -c)
-          even=$(echo '[""]' | jq -c)
-          vowel=$(echo '["A"]' | jq -c)
-          consonant=$(echo '[""]' | jq -c)
+          num=fromJson($(echo '["1","2","3"]' | jq -c))
+          odd=fromJson($(echo '["1","3"]' | jq -c))
+          even=fromJson($(echo '[""]' | jq -c))
+          vowel=fromJson($(echo '["A"]' | jq -c))
+          consonant=$(echo '[""]' | jq -c))
           echo "num=${num}" >> $GITHUB_OUTPUT
           echo "odd=${odd}" >> $GITHUB_OUTPUT
           echo "even=${even}" >> $GITHUB_OUTPUT
@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        num: ${{ fromJson(needs.set-matrix.outputs.num) }}
+        num: ${{ needs.set-matrix.outputs.num }}
     steps:
       - name: wait
         run: |
@@ -46,7 +46,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        num: ${{ fromJson(needs.set-matrix.outputs.num) }}
+        num: ${{ needs.set-matrix.outputs.num }}
     steps:
       - name: wait
         run: |
@@ -64,7 +64,7 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        odd: ${{ fromJson(needs.set-matrix.outputs.odd) }}
+        odd: ${{ needs.set-matrix.outputs.odd }}
     steps:
       - name: wait
         run: |
@@ -77,12 +77,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, static]
     if: |
-      !contains(matrix.even, '')
+      !contains(needs.set-matrix.outputs.even, '')
     strategy:
       fail-fast: false
       max-parallel: 1
       matrix:
-        even: ${{ fromJson(needs.set-matrix.outputs.even) }}
+        even: ${{ needs.set-matrix.outputs.even }}
     steps:
       - name: wait
         run: |
@@ -95,11 +95,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, test_odd, test_even]
     if: |
-      !contains(matrix.vowel, '')
+      !contains(needs.set-matrix.outputs.vowel, '')
     strategy:
       fail-fast: false
       matrix:
-        vowel: ${{ fromJson(needs.set-matrix.outputs.vowel) }}
+        vowel: ${{ needs.set-matrix.outputs.vowel }}
     steps:
       - name: wait
         run: |
@@ -112,11 +112,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, test_odd, test_even]
     if: |
-      !contains(matrix.consonant, '')
+      !contains(needs.set-matrix.outputs.consonant, '')
     strategy:
       fail-fast: false
       matrix:
-        consonant: ${{ fromJson(needs.set-matrix.outputs.consonant) }}
+        consonant: ${{ needs.set-matrix.outputs.consonant }}
     steps:
       - name: wait
         run: |

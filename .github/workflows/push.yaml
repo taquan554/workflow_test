@@ -7,8 +7,8 @@ jobs:
       - name: set-matrix
         id: set-matrix
         run: |
-          qtr=$(echo '["1q","2q","3q","4q"]' | jq -c)
-          week=$(echo '["Sun","Mon","Tues","Wed","Thur","Fri","Sat"]' | jq -c)
+          qtr=("1q" "2q" "3q" "4q")
+          week=("Sun" "Mon" "Tues" "Wed" "Thur" "Fri" "Sat")
           echo "::set-output name=output1::${qtr}"
           echo "::set-output name=output2::${week}"
     outputs:

@@ -41,7 +41,7 @@ jobs:
         run: echo ${{ matrix.num }}
       - name: error
         if: |
-          contains(fromJSON(needs.set-matrix.outputs.num), '1')
+          ${{ matrix.num }} == '1'
         run: |
           exit 1
 
@@ -106,6 +106,7 @@ jobs:
     continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.vowel), '')
+      && !failure()
     strategy:
       fail-fast: false
       matrix:
@@ -124,6 +125,7 @@ jobs:
     continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.consonant), '')
+      && !failure()
     strategy:
       fail-fast: false
       matrix:

@@ -40,10 +40,10 @@ jobs:
       - name: main proc
         run: echo ${{ matrix.num }}
       - name: error
+        if: |
+          contains(fromJSON(needs.set-matrix.outputs.num), '1')
         run: |
-          if [["${{ matrix.num }}" == "1"]] ; then
-            exit 1
-          fi
+          exit 1
 
   static:
     runs-on: ubuntu-latest

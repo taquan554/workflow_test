@@ -48,6 +48,8 @@ jobs:
   static:
     runs-on: ubuntu-latest
     needs: [set-matrix, build]
+    if: |
+      needs.build.result == 'success'
     continue-on-error: true
     strategy:
       fail-fast: false
@@ -68,6 +70,7 @@ jobs:
     continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.odd), '')
+      && needs.build.result == 'success'
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -87,6 +90,7 @@ jobs:
     continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.even), '')
+      && needs.build.result == 'success'
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -106,7 +110,7 @@ jobs:
     continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.vowel), '')
-      && !failure()
+      && needs.build.result == 'success'
     strategy:
       fail-fast: false
       matrix:
@@ -125,7 +129,7 @@ jobs:
     continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.consonant), '')
-      && !failure()
+      && needs.build.result == 'success'
     strategy:
       fail-fast: false
       matrix:

@@ -27,6 +27,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: set-matrix
+    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -38,10 +39,16 @@ jobs:
           echo "timeout"
       - name: main proc
         run: echo ${{ matrix.num }}
+      - name: error
+        run: |
+          if [["${{ matrix.num }}" == "1"]] ; then
+            exit 1
+          fi
 
   static:
     runs-on: ubuntu-latest
     needs: [set-matrix, build]
+    continue-on-error: true
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -58,6 +65,7 @@ jobs:
   test_odd:
     runs-on: ubuntu-latest
     needs: [set-matrix, static]
+    continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.odd), '')
     strategy:
@@ -76,6 +84,7 @@ jobs:
   test_even:
     runs-on: ubuntu-latest
     needs: [set-matrix, static]
+    continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.even), '')
     strategy:
@@ -94,6 +103,7 @@ jobs:
   test_vowel:
     runs-on: ubuntu-latest
     needs: [set-matrix, test_odd, test_even]
+    continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.vowel), '')
     strategy:
@@ -111,6 +121,7 @@ jobs:
   test_consonant:
     runs-on: ubuntu-latest
     needs: [set-matrix, test_odd, test_even]
+    continue-on-error: true
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.consonant), '')
     strategy:

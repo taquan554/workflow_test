@@ -44,6 +44,7 @@ jobs:
     needs: [set-matrix, build]
     if: |
       needs.build.result == 'success'
+      && !cancelled()
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -68,6 +69,7 @@ jobs:
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.odd), '')
       && needs.build.result == 'success'
+      && !cancelled()
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -87,6 +89,7 @@ jobs:
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.even), '')
       && needs.build.result == 'success'
+      && !cancelled()
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -106,6 +109,7 @@ jobs:
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.vowel), '')
       && needs.build.result == 'success'
+      && !cancelled()
     strategy:
       fail-fast: false
       matrix:
@@ -124,6 +128,7 @@ jobs:
     if: |
       !contains(fromJSON(needs.set-matrix.outputs.consonant), '')
       && needs.build.result == 'success'
+      && !cancelled()
     strategy:
       fail-fast: false
       matrix:

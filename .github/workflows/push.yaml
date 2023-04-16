@@ -38,6 +38,11 @@ jobs:
           echo "timeout"
       - name: main proc
         run: echo ${{ matrix.num }}
+      - name: error
+        if: |
+          matrix.num == '1'
+        run: |
+          exit 1
 
   static:
     runs-on: ubuntu-latest

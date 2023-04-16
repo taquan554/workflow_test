@@ -17,6 +17,9 @@ jobs:
           echo "even=${even}" >> $GITHUB_OUTPUT
           echo "vowel=${vowel}" >> $GITHUB_OUTPUT
           echo "consonant=${consonant}" >> $GITHUB_OUTPUT
+      - name: error
+        run: |
+          exit 1
     outputs:
       num: ${{ steps.set-matrix.outputs.num }}
       odd: ${{ steps.set-matrix.outputs.odd }}
@@ -77,11 +80,6 @@ jobs:
           echo "timeout"
       - name: main proc
         run: echo ${{ matrix.odd }}
-      - name: error
-        if: |
-          matrix.odd == '1'
-        run: |
-          exit 1
 
   test_even:
     runs-on: ubuntu-latest

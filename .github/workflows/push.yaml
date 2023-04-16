@@ -10,8 +10,8 @@ jobs:
           num=$(echo '["1","2","3"]' | jq -c)
           odd=$(echo '["1","3"]' | jq -c)
           even=$(echo '[""]' | jq -c)
-          vowel=$(echo '["A"]' | jq -c)
-          consonant=$(echo '[""]' | jq -c)
+          vowel=$(echo '[""]' | jq -c)
+          consonant=$(echo '["B", "C"]' | jq -c)
           echo "num=${num}" >> $GITHUB_OUTPUT
           echo "odd=${odd}" >> $GITHUB_OUTPUT
           echo "even=${even}" >> $GITHUB_OUTPUT
@@ -41,7 +41,7 @@ jobs:
         run: echo ${{ matrix.num }}
       - name: error
         if: |
-          ${{ matrix.num }} == '1'
+          matrix.num == '1'
         run: |
           exit 1
 

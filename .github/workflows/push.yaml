@@ -48,9 +48,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, build]
     if: |
-      ${{ true
+      true
       && needs.build.result == 'success'
-      && !cancelled() }}
+      && !cancelled()
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -68,10 +68,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, build, static]
     if: |
-      ${{ true
+      true
       && !contains(fromJSON(needs.set-matrix.outputs.odd), '')
       && needs.build.result == 'success'
-      && !cancelled() }}
+      && !cancelled()
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -89,10 +89,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, build, static]
     if: |
-      ${{ true
+      true
       && !contains(fromJSON(needs.set-matrix.outputs.even), '')
       && needs.build.result == 'success'
-      && !cancelled() }}
+      && !cancelled()
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -110,10 +110,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, build, test_odd, test_even]
     if: |
-      ${{ true
+      true
       && !contains(fromJSON(needs.set-matrix.outputs.vowel), '')
       && needs.build.result == 'success'
-      && !cancelled() }}
+      && !cancelled()
     strategy:
       fail-fast: false
       matrix:
@@ -130,10 +130,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-matrix, build, test_odd, test_even]
     if: |
-      ${{ true
+      true
       && !contains(fromJSON(needs.set-matrix.outputs.consonant), '')
       && needs.build.result == 'success'
-      && !cancelled() }}
+      && !cancelled()
     strategy:
       fail-fast: false
       matrix:
